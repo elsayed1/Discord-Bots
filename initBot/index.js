@@ -1,15 +1,19 @@
 const Discord = require('discord.js');
 const discordTTS = require('discord-tts');
+const express = require('express');
 
 let hasTracker = false;
 const client = new Discord.Client();
+const app = express();
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
 const prefix = '!';
-
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
 const endTracking = (msg, trackedPerson) => {
   const broadcast = client.voice.createBroadcast();
   const channelId = msg.member.voice.channelID;
@@ -66,5 +70,6 @@ client.on('message', (msg) => {
 //       }
 //     }
 //   })
-
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log('server is running '));
 client.login(process.env.Token);
